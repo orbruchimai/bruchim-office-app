@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ברוכים שמאים ומהנדסים</title>
+<meta name="description" content="אפליקציית ניהול לעסק - שלד בהקמה">
+<meta name="theme-color" content="#2d3142">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="משרד ברוכים">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600&family=Noto+Sans+Hebrew:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f5f5; --card:#ffffff; --ink:#2d3142; --line:#bfc0c0;
+    --accent:#eb6c36; --accent-soft:#f7e5dc; --steel:#4f5d75;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Geist","Noto Sans Hebrew",Arial,sans-serif;
+    min-height:100vh; min-height:100dvh;
+  }
+  .app{max-width:480px; margin:0 auto; padding:0 16px 32px; display:flex; flex-direction:column; min-height:100vh; min-height:100dvh}
+  header.app-header{
+    display:flex; align-items:center; gap:12px;
+    padding:calc(14px + env(safe-area-inset-top)) 4px 14px;
+    border-bottom:1px solid var(--line); margin-bottom:18px;
+  }
+  header.app-header img{width:40px; height:40px; object-fit:contain}
+  header.app-header .titles{flex:1}
+  header.app-header h1{font-size:19px; margin:0; font-weight:600}
+  header.app-header .sub{font-size:13px; color:var(--steel); margin-top:2px}
+  .badge{font-size:11px; background:var(--accent-soft); color:var(--accent); border:1px solid var(--accent); border-radius:999px; padding:3px 10px; font-weight:600; white-space:nowrap}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  a.tile{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    background:var(--card); border:1.5px solid var(--line); border-radius:16px;
+    padding:22px 10px; text-align:center; text-decoration:none; color:var(--ink);
+    min-height:128px;
+  }
+  a.tile:active{border-color:var(--accent); background:var(--accent-soft)}
+  a.tile .glyph{width:34px; height:34px; color:var(--steel)}
+  a.tile .label{font-size:15px; font-weight:600; line-height:1.35}
+  .screen-head{display:flex; align-items:center; gap:8px; margin-bottom:16px}
+  .back{
+    display:flex; align-items:center; justify-content:center;
+    width:38px; height:38px; border-radius:12px; border:1.5px solid var(--line);
+    background:var(--card); text-decoration:none; color:var(--ink); font-size:18px;
+  }
+  .screen-head h2{font-size:20px; margin:0; font-weight:600}
+  .panel{background:var(--card); border:1.5px solid var(--line); border-radius:16px; padding:26px 18px; text-align:center}
+  .panel .glyph{width:44px; height:44px; color:var(--steel); margin:0 auto 12px}
+  .panel p{font-size:15px; line-height:1.6; margin:0 0 14px}
+  .chip{display:inline-block; font-size:12px; font-weight:600; color:var(--accent); background:var(--accent-soft); border:1px solid var(--accent); border-radius:999px; padding:4px 14px}
+  footer{margin-top:auto; padding-top:26px; font-size:12px; color:var(--steel); text-align:center; line-height:1.7}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="app-header">
+    <img src="./icons/icon-192.png" alt="לוגו ברוכים שמאים ומהנדסים">
+    <div class="titles">
+      <h1>ברוכים שמאים ומהנדסים</h1>
+      <div class="sub">ניהול העסק</div>
+    </div>
+    <span class="badge">בהקמה</span>
+  </header>
+  <main id="view"></main>
+  <footer>
+    אפליקציה בהקמה - שלד בלבד, בלי מידע עסקי או נתוני לקוחות.<br>
+    הלוגו מהאתר bruchim.com
+  </footer>
+</div>
+<script>
+const ICONS = {
+  case: '<svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 11v6M9 14h6"/></svg>',
+  analyze: '<svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M8 11h6M11 8v6"/></svg>',
+  clients: '<svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  report: '<svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>'
+};
+const SCREENS = {
+  "new-case": { title: "פתיחת תיק חדש", icon: "case",
+    text: "כאן ייפתח תיק חדש ללקוח: פרטי קשר, סוג הנזק ותיאור האירוע." },
+  "analyze": { title: "ניתוח דוח קיים", icon: "analyze",
+    text: "כאן יעלה דוח קיים - למשל תמונה של דוח בכתב יד - לניתוח ולעיבוד." },
+  "clients": { title: "סטטוס לקוחות", icon: "clients",
+    text: "כאן יוצג מצב של כל לקוח ותיק: חדש, בטיפול, ממתין לאישור, ממתין לתשלום ונסגר." },
+  "report": { title: "כתיבת דוח", icon: "report",
+    text: "כאן ייכתב ויופק הדוח - מכתב היד ועד הטיוטה שנשלחת ללקוח." }
+};
+const ORDER = ["new-case", "analyze", "clients", "report"];
+
+function home() {
+  return '<div class="grid">' + ORDER.map(id =>
+    `<a class="tile" href="#/${id}">${ICONS[SCREENS[id].icon]}<span class="label">${SCREENS[id].title}</span></a>`
+  ).join("") + "</div>";
+}
+function screen(id) {
+  const s = SCREENS[id];
+  if (!s) return home();
+  return `<div class="screen-head"><a class="back" href="#/" aria-label="חזרה">&#8594;</a><h2>${s.title}</h2></div>` +
+    `<div class="panel">${ICONS[s.icon]}<p>${s.text}</p><span class="chip">המסך בהכנה - בקרוב</span></div>`;
+}
+function route() {
+  const id = location.hash.replace(/^#\/?/, "");
+  document.getElementById("view").innerHTML = id ? screen(id) : home();
+}
+window.addEventListener("hashchange", route);
+route();
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>
