@@ -11,8 +11,8 @@
   "background_color": "#f5f5f5",
   "theme_color": "#2d3142",
   "icons": [
-    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "https://github.com/user-attachments/assets/2c0f10b6-75bc-4ce7-845b-8fc9f6e0ab1e", "sizes": "192x192", "type": "image/png" },
+    { "src": "https://github.com/user-attachments/assets/8f081804-7cb8-470f-b1ec-25e6734319dc", "sizes": "512x512", "type": "image/png" },
+    { "src": "https://github.com/user-attachments/assets/6a72c485-a1bf-4f27-8d83-7deb3a27f528", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
